@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { actions } from "../actions";
+import MyPost from "../components/auth/profile/MyPost";
+import ProfileInfo from "../components/auth/profile/ProfileInfo";
 import { useAuth } from "../hooks/useAuth";
 import useAxios from "../hooks/useAxios";
+import { useProfile } from "../hooks/useProfile";
 
 export default function ProfilePage() {
   const { auth } = useAuth();
   const { api } = useAxios();
-  const [user, setUser] = useState(null);
-  const [post, setPost] = useState([]);
 
+  const { state, dispatch } = useProfile();
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -15,8 +18,9 @@ export default function ProfilePage() {
           `${import.meta.env.VITE_SERVER_BASE_URL}/profile/${auth?.user?.id}`
         );
         console.log(response);
-        setUser(response?.data?.user);
-        setPost(response?.data?.posts);
+        if (response.status === 200) {
+          dispatch({ type: actions.profile.DATA_FETCHED, data: response.data });
+        }
       } catch (e) {
         console.error(e);
       }
@@ -24,14 +28,10 @@ export default function ProfilePage() {
     fetchProfile();
   }, []);
 
-  console.log(post);
-
   return (
     <>
-      <h1>Profile Page</h1>
-
-      <h1>Welcome , {user?.firstName}</h1>
-      {post.length === 0 ? "Sorry Post is Not Fount" : <h1> {post.length}</h1>}
+      <ProfileInfo />
+      <MyPost />
     </>
   );
 }
