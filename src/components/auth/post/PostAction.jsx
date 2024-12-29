@@ -2,7 +2,7 @@ import React from "react";
 import commentImage from "../../../assets/icons/comment.svg";
 import likeImage from "../../../assets/icons/like.svg";
 import shareImage from "../../../assets/icons/share.svg";
-export default function PostAction() {
+export default function PostAction({ postId, commentCount }) {
   return (
     <>
       {" "}
@@ -16,7 +16,7 @@ export default function PostAction() {
         {/* <!-- Comment Button --> */}
         <button class="icon-btn space-x-2 px-6 py-3 text-xs lg:px-12 lg:text-sm">
           <img src={commentImage} alt="Comment" />
-          <span>Comment(2)</span>
+          <span>Comment ({commentCount ?? 0})</span>
         </button>
         {/* <!-- Share Button --> */}
 

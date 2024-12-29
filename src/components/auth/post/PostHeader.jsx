@@ -3,7 +3,12 @@ import dotImage from "../../../assets/icons/3dots.svg";
 import deleteImage from "../../../assets/icons/delete.svg";
 import edtiImage from "../../../assets/icons/edit.svg";
 import timeImage from "../../../assets/icons/time.svg";
+import { useAvatar } from "../../../hooks/useAvatar";
+
+import { getDateDifferenceFromNow } from "../../../utils";
 export default function PostHeader({ post }) {
+  const { avatarURL } = useAvatar(post);
+  console.log(avatarURL);
   const [showModal, setShowModal] = useState(false);
   return (
     <>
@@ -11,9 +16,7 @@ export default function PostHeader({ post }) {
         <div class="flex items-center gap-3">
           <img
             class="max-w-10 max-h-10 rounded-full lg:max-h-[58px] lg:max-w-[58px]"
-            src={`${import.meta.env.VITE_SERVER_BASE_URL}/${
-              post?.author?.avatar
-            }`}
+            src={avatarURL}
             // src="./assets/images/avatars/avatar_1.png"
             alt="avatar"
           />
@@ -21,7 +24,9 @@ export default function PostHeader({ post }) {
             <h6 class="text-lg lg:text-xl">{post?.author?.name}</h6>
             <div class="flex items-center gap-1.5">
               <img src={timeImage} alt="time" />
-              <span class="text-sm text-gray-400 lg:text-base"></span>
+              <span class="text-sm text-gray-400 lg:text-base">{`${getDateDifferenceFromNow(
+                post?.createAt
+              )} ago`}</span>
             </div>
           </div>
         </div>

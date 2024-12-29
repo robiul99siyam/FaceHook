@@ -18,11 +18,11 @@ export default function PostCard({ post }) {
         {/* <!-- post body ends --> */}
 
         {/* <!-- post actions --> */}
-        <PostAction />
+        <PostAction postId={post?.id} commentCount={post?.comments?.length} />
         {/* <!-- post actions  --> */}
 
         {/* <!-- comment section --> */}
-        <PostComment />
+        <PostComment posts={post} />
         {/* <!-- comment section ends --> */}
       </article>
     </>
