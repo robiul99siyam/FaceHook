@@ -1,6 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import useAxios from "../../hooks/useAxios";
 import Field from "./Field";
+
 export default function Resgister() {
   const {
     register,
@@ -8,8 +11,21 @@ export default function Resgister() {
     formState: { errors },
   } = useForm();
 
+  const { api } = useAxios();
+  const navigate = useNavigate();
   const sumbitForm = async (formData) => {
-    console.log(formData);
+    try {
+      const response = await api.post(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/auth/register`,
+        formData
+      );
+
+      if (response.status === 201) {
+        navigate("/login");
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -29,6 +45,18 @@ export default function Resgister() {
             id="firstName"
           />
         </Field>
+        <Field label="Last Name" error={errors.firstName}>
+          <input
+            {...register("lastName", { required: "Last Name is Required" })}
+            className={`auth-input ${
+              errors.lastName ? "border-red-500" : "border-gray-100"
+            }`}
+            name="lastName"
+            type="lastName"
+            id="lastName"
+          />
+        </Field>
+
         <Field label="Email" error={errors.email}>
           <input
             {...register("email", { required: "Email is Required" })}
