@@ -1,11 +1,12 @@
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 import { actions } from "../actions";
+import NewPost from "../components/auth/post/NewPost";
 import PostList from "../components/auth/post/PostList";
 import useAxios from "../hooks/useAxios";
-import { initalState, postReducres } from "../reducers/PostReducrs";
+import { usePost } from "../hooks/usePost";
 
 export default function HomePage() {
-  const [state, dispatch] = useReducer(postReducres, initalState);
+  const { state, dispatch } = usePost();
   const { api } = useAxios();
   useEffect(() => {
     dispatch({ type: actions.post.DATA_FETCHED });
@@ -30,9 +31,10 @@ export default function HomePage() {
     postDataFetch();
   }, []);
 
-  console.log(state);
   return (
     <>
+      {" "}
+      <NewPost />
       <PostList posts={state?.posts} />
     </>
   );

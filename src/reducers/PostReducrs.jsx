@@ -27,6 +27,29 @@ const postReducres = (state, action) => {
         error: action.error,
       };
     }
+
+    case actions.post.DATA_CREATE: {
+      return {
+        ...state,
+        loading: false,
+        posts: [...state.posts, action.data],
+      };
+    }
+    case actions.post.DATA_DELETED: {
+      return {
+        ...state,
+        loading: false,
+        posts: state.posts.filter((x) => x.id !== action.data),
+      };
+    }
+
+    case actions.post.DATA_EDITED: {
+      return {
+        ...state,
+        loading: false,
+        posts: [...state.posts, action.data],
+      };
+    }
     default: {
       return state;
     }

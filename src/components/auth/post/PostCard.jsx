@@ -5,7 +5,6 @@ import PostComment from "./PostComment";
 import PostHeader from "./PostHeader";
 
 export default function PostCard({ post }) {
-  console.log(post);
   return (
     <>
       <article class="card mt-6 lg:mt-8">

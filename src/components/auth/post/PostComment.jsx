@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import { useAvatar } from "../../../hooks/useAvatar";
+import { useState } from "react";
+import { useAuth } from "../../../hooks/useAuth";
 import useAxios from "../../../hooks/useAxios";
+import { useProfile } from "../../../hooks/useProfile";
 import PostCommentList from "./PostCommentList";
 export default function PostComment({ posts }) {
-  const { avatarURL } = useAvatar(posts);
+  const { auth } = useAuth();
+  const { state } = useProfile();
+  const user = state?.user ?? auth?.user;
 
   const [showComment, setShowComment] = useState(false);
   const [comments, setComments] = useState(posts?.comments);
@@ -37,7 +40,7 @@ export default function PostComment({ posts }) {
         <div className="flex-center mb-3 gap-2 lg:gap-4">
           <img
             className="max-w-7 max-h-7 rounded-full lg:max-h-[34px] lg:max-w-[34px]"
-            src={avatarURL}
+            src={`${import.meta.env.VITE_SERVER_BASE_URL}/${user.avatar}`}
             alt="avatar"
           />
 
